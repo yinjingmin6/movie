@@ -1,0 +1,25 @@
+{
+  "name": "movie",
+  "description": "movie",
+  "main": "app.js",
+  "authors": [
+    "yjm"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "movie"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
