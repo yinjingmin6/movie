@@ -26,7 +26,7 @@ mongoose.Promise = global.Promise
 // 链接本地数据库
 mongoose.connect(dbUrl, {useMongoClient:true})
 // 设置视图的根目录
-app.set('views', './views/pages')
+app.set('views', './app/views/pages')
 // 设置默认的模板引擎
 app.set('view engine', 'jade')
 // app.use(express.bodyParser())
