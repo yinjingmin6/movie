@@ -2,6 +2,8 @@ var Movie = require('../models/movie')
 var Comment = require('../models/comment')
 var Category = require('../models/category')
 var _ = require('underscore')
+var fs = require('fs')
+var path = require('path')
 // admin new page
 exports.new = function(req, res) {
 	Category.find({}, function(err, categories) {
@@ -27,11 +29,46 @@ exports.update = function(req, res) {
 		})
 	}
 };
-	// admin post movie
+
+// admin poster
+exports.savePoster = function(req, res, next) {
+	var posterData = req.files.uploadPoster
+	var filePath = posterData.path
+	// 用作判断 如果有originalFilename 则认为有图片传过来了
+	var originalFilename = posterData.originalFilename
+
+	console.log(req.files)
+	if(originalFilename) {
+		fs.readFile(filepath, function(err, data) {
+			// 拿到时间戳
+			var timestamp = Date.now()
+			var type = posterData.type.split('')[1]
+			var poster = imestamp + '.' + type
+			// movie.js 相对于app的位置 ../../  文件放到 /public下
+			var newPath = path.join(__dirname, '../../', '/public/upload'+ poster)
+			fs.writeFile(newPath, data, function(err) {
+				// 将写入成功的poster传给req
+				req.poster = poster
+				next()
+			})
+		})
+	} else {
+		// 如果没有文件上传的话 直接next()
+		next()
+	}
+}
+
+
+// admin post movie
 exports.save = function(req, res) {
-	var id = req.body.movie._id
+	var id = req.body.movie._id;
 	var movieObj = req.body.movie
 	var _movie
+	// 检查req里面有没有poster 如果有的话 就说明上一个流程里面存好了一个poster
+	// 那就重新movieObj.poster
+	if(req.poster) {
+		movieObj.poster = req.poster
+	}
 	if(id) {
 		Movie.findById(id, function(err, movie) {
 			if(err) {
@@ -98,6 +135,11 @@ exports.save = function(req, res) {
 exports.detail = function(req, res) {
 	var id = req.params.id
 	Movie.findById(id, function(err, movie) {
+		Movie.update({_id: id}, {$inc: {pv: 1}}, function(err) {
+			if(err) {
+				console.log(err)
+			}
+		})
 		// 从Comment里查询哪些movieId跟当前详情页的movie是同一个，
 		// 就拿到当前这条movie数据下的comments
 		// 找到电影的评论数据 然后对每个评论数据进行populate方法

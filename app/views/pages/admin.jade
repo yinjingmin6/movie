@@ -19,7 +19,7 @@ block content
 					each cat in categories
 						label.radio-inline
 							if movie._id
-								input(type="radio", name="movie[title]", value=cat._id, checked = cat._id.toString() == movie.category.toString())
+								input(type="radio", name="movie[title]", value=cat._id, checked = cat._id == movie.category)
 								| #{cat.name}
 							else
 								input(type="radio", name="movie[title]", value="#{cat._id}")

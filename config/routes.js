@@ -4,7 +4,6 @@ var User = require('../app/controllers/user')
 var _ = require('underscore')
 var Index = require('../app/controllers/index')
 var Comment = require('../app/controllers/comment')
-var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
 
 module.exports = function(app) {
@@ -38,7 +37,7 @@ module.exports = function(app) {
 	// admin update movie
 	app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update);
 	// admin post movie
-	app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.save);
+	app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.savePoster, Movie.save);
 	// detail page
 	app.get('/movie/:id', Movie.detail)
 	// list page

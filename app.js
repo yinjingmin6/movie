@@ -13,7 +13,7 @@ var app = express()
 var bodyParser = require('body-parser')
 var serveStatic = require('serve-static')
 var cookieParser = require('cookie-parser')
-// var multipart = require('connect-multipart')
+var multipart = require('connect-multiparty')
 var session = require('express-session')
 // 用于session持久化
 var mongoStore = require('connect-mongo')(session)
@@ -38,6 +38,7 @@ app.use(bodyParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.locals.moment = require('moment')
 app.use(cookieParser())
+app.use(multipart())
 app.use(session({
 	secret: 'movie',
 	store: new mongoStore({
