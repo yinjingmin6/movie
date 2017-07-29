@@ -6,6 +6,9 @@ var Index = require('../app/controllers/index')
 var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
 
+var multipart = require('connect-multiparty')
+var multipartMiddleware = multipart()
+
 module.exports = function(app) {
 	// 预处理
 	app.use(function(req, res, next) {
@@ -37,7 +40,7 @@ module.exports = function(app) {
 	// admin update movie
 	app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update);
 	// admin post movie
-	app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.savePoster, Movie.save);
+	app.post('/admin/movie', multipartMiddleware, User.signinRequired, User.adminRequired, Movie.savePoster, Movie.save);
 	// detail page
 	app.get('/movie/:id', Movie.detail)
 	// list page

@@ -34,6 +34,13 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		mochaTest: {
+			options: {
+				reporter: 'spec'
+			},
+			// 要测试test目录下的所有js文件
+			src: ['test/**/*.js']
+		},
 		concurrent: {
 			tasks: ['nodemon', 'watch'],
 			options: {
@@ -47,7 +54,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-nodemon')
 	// 优化慢任务（如less）的构建事件，可以跑多个阻塞的任务
 	grunt.loadNpmTasks('grunt-concurrent')
+	// 单元测试
+	grunt.loadNpmTasks('grunt-mocha-test')
 	// 避免因为语法错误或警告中断grunt的整个服务
 	grunt.option('force', true)
 	grunt.registerTask('default', ['concurrent'])
+	grunt.registerTask('test', ['mochaTest'])
 }
