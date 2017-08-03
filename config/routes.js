@@ -21,11 +21,10 @@ module.exports = function(app) {
 	})
 	// index page
 	app.get('/', Index.index);
-
+	
 	// user
 	// signup
 	app.post('/user/signup', User.signup)
-	// signin
 	app.post('/user/signin', User.signin)
 	app.get('/signin', User.showSignin)
 	app.get('/signup', User.showSignup)
