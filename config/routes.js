@@ -14,14 +14,12 @@ module.exports = function(app) {
 	app.use(function(req, res, next) {
 		// 每次刷新首页的时候都会重新动态的从session里面取user的数据
 		var _user = req.session.user
-		// if(_user) {
 		app.locals.user = _user
-		// } ?????
 		return next()
 	})
 	// index page
 	app.get('/', Index.index);
-	
+
 	// user
 	// signup
 	app.post('/user/signup', User.signup)
